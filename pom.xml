@@ -4,8 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <name>opencloud</name>
     <groupId>com.cloud2cloud</groupId>
-    <artifactId>iot-open-demo-opencloud-webapp</artifactId>
+    <artifactId>opencloud</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <parent>
@@ -86,6 +87,20 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 开启过滤替换功能-->
+                <filtering>true</filtering>
+                <includes>
+                    <!-- 项目打包完成的包中只包含当前环境文件 -->
+                    <include>bootstrap.yml</include>
+                    <include>logback.xml</include>
+                    <!--                    <include>mappers/*.xml</include>-->
+                </includes>
+            </resource>
+        </resources>
     </build>
+
 
 </project>

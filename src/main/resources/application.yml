@@ -1,6 +1,6 @@
 #启用http服务用的
 server:
-  port: 9090
+  port: 8106
 iot:
   appId: 64992b76df5fbb8128dfeb9cd4683f35
   appKey: e2b4d7f285d0d56debc9bbd9f9a27c8e
