@@ -98,6 +98,7 @@ public class CloudServiceImpl implements CloudService {
                     });
                 }
                 cloudRetVO = ResponseUtil.success(deviceList);
+                log.info("通过IOT接口查询用户名下设备列表 出参：{}", cloudRetVO);
                 return cloudRetVO;
             } else {
                 log.error("通过IOT接口查询用户名下设备列表异常-请求iot 出参：{}", response);
