@@ -1,0 +1,12 @@
+#启用http服务用的
+server:
+  port: 9090
+iot:
+  appId: 64992b76df5fbb8128dfeb9cd4683f35
+  appKey: e2b4d7f285d0d56debc9bbd9f9a27c8e
+#  appId: 6d60d3637f6960e4f20e07b458a87baa
+#  appKey: fd9fd3d9ce2f279f9409fdbba9e973b7
+  baseUrl: https://api-prod.smartmidea.net
+spring:
+  jackson:
+    property-naming-strategy: UPPER_CAMEL_CASE
