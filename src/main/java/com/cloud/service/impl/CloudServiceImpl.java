@@ -71,7 +71,7 @@ public class CloudServiceImpl implements CloudService {
             String uri = "/v1/open/device/list/get";
             params.add("clientId", appId);
             params.add("reqId", RequestDateUtils.genRequestDateStr());
-            params.add("stamp", RequestDateUtils.genRequestDateStr());
+            params.add("stamp", requestDTO.getTimestamp());
             params.add("sign", SignUtil.requestSign(uri, params, appKey));
             log.info("查询设备信息-请求iot 入参：{}", params);
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(params, headers);
@@ -117,6 +117,7 @@ public class CloudServiceImpl implements CloudService {
         log.info("查询设备状态 入参：Header:{},Body:{}", JSON.toJSONString(header), JSON.toJSONString(body));
         BaseResponseDTO<QueryStatusVO> responseDTO;
         String token = header.getToken();
+        String timeStamp = header.getTimestamp();
         QueryStatusVO queryStatusVO = new QueryStatusVO();
         DeviceStatusVO deviceStatusVO = new DeviceStatusVO();
 
@@ -125,7 +126,7 @@ public class CloudServiceImpl implements CloudService {
 
         try {
             String command1 = CloudConstant.D9_UP_LOCATION_DB;
-            ResponseEntity<String> location1Response = iotQueryStatus(token, applianceId, command1);
+            ResponseEntity<String> location1Response = iotQueryStatus(token, timeStamp, applianceId, command1);
             String location1 = location1Response.getBody();
             JSONObject location1Obj = JSON.parseObject(location1);
             JSONObject status1 = location1Obj.getJSONObject("status");
@@ -137,7 +138,7 @@ public class CloudServiceImpl implements CloudService {
             deviceStatusVO.setWater_Level_1(status1.getInteger(CloudConstant.STATUS_MAP.get("Water_Level_1")));
 
             String command2 = CloudConstant.D9_DOWN_LOCATION_DB;
-            ResponseEntity<String> location2Response = iotQueryStatus(token, applianceId, command2);
+            ResponseEntity<String> location2Response = iotQueryStatus(token, timeStamp, applianceId, command2);
             String location2 = location2Response.getBody();
             JSONObject location2Obj = JSON.parseObject(location2);
             JSONObject status2 = location2Obj.getJSONObject("status");
@@ -194,7 +195,7 @@ public class CloudServiceImpl implements CloudService {
             String uri = "/v1/open/device/lua/control";
             params.add("clientId", appId);
             params.add("reqId", RequestDateUtils.genRequestDateStr());
-            params.add("stamp", RequestDateUtils.genRequestDateStr());
+            params.add("stamp", requestDTO.getTimestamp());
             params.add("applianceCode", applianceId);
             params.add("command", command);
             params.add("sign", SignUtil.requestSign(uri, params, appKey));
@@ -261,7 +262,7 @@ public class CloudServiceImpl implements CloudService {
         return jsonObject.toJSONString();
     }
 
-    private ResponseEntity<String> iotQueryStatus(String token, String applianceId, String command) {
+    private ResponseEntity<String> iotQueryStatus(String token, String timeStamp, String applianceId, String command) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + token);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -269,7 +270,7 @@ public class CloudServiceImpl implements CloudService {
         String uri = "/v1/open/device/status/lua/get";
         params.add("clientId", appId);
         params.add("reqId", RequestDateUtils.genRequestDateStr());
-        params.add("stamp", RequestDateUtils.genRequestDateStr());
+        params.add("stamp", timeStamp);
         params.add("applianceCode", applianceId);
         params.add("command", command);
         params.add("sign", SignUtil.requestSign(uri, params, appKey));
